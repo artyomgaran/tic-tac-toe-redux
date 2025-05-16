@@ -1,11 +1,14 @@
 import styles from './Field.module.css';
 import Cell from '../Cell/Cell';
 import PropTypes from 'prop-types';
+import { store } from '../../Redux/store';
 
-function FieldLayout({ field, handleCellClick }) {
+function FieldLayout({ handleCellClick }) {
+	const state = store.getState();
+
 	return (
 		<div className={styles.field}>
-			{field.map((cell, index) => (
+			{state.field.map((cell, index) => (
 				<Cell key={index} value={cell} onClick={() => handleCellClick(index)} />
 			))}
 		</div>
@@ -13,7 +16,7 @@ function FieldLayout({ field, handleCellClick }) {
 }
 
 FieldLayout.propTypes = {
-	field: PropTypes.arrayOf(PropTypes.string).isRequired,
 	handleCellClick: PropTypes.func.isRequired,
 };
+
 export default FieldLayout;

@@ -15,24 +15,14 @@ function Game() {
 		return unsubscribe;
 	}, []);
 
-	const state = store.getState();
-
 	const resetGame = () => {
 		store.dispatch({ type: 'RESTART_GAME' });
 	};
 
 	return (
 		<div className={styles.game}>
-			<Information
-				currentPlayer={state.currentPlayer}
-				isGameEnded={state.isGameEnded}
-				isDraw={state.isDraw}
-			/>
-			<Field
-				field={state.field}
-				currentPlayer={state.currentPlayer}
-				isGameEnded={state.isGameEnded}
-			/>
+			<Information />
+			<Field />
 			<button className={styles.resetButton} onClick={resetGame}>
 				Начать заново
 			</button>

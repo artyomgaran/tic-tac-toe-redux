@@ -1,18 +1,14 @@
-import PropTypes from 'prop-types';
+import { store } from '../../Redux/store';
 import styles from './Information.module.css';
 
-function Information({ currentPlayer, isGameEnded, isDraw }) {
-	let message = `Ходит: ${currentPlayer}`;
-	if (isDraw) message = 'Ничья!';
-	if (isGameEnded && !isDraw) message = `Победа: ${currentPlayer}`;
+function Information() {
+	const state = store.getState();
+
+	let message = `Ходит: ${state.currentPlayer}`;
+	if (state.isDraw) message = 'Ничья!';
+	if (state.isGameEnded && !state.isDraw) message = `Победа: ${state.currentPlayer}`;
 
 	return <div className={styles.information}>{message}</div>;
 }
-
-Information.propTypes = {
-	currentPlayer: PropTypes.string.isRequired,
-	isGameEnded: PropTypes.bool.isRequired,
-	isDraw: PropTypes.bool.isRequired,
-};
 
 export default Information;

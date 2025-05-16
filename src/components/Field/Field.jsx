@@ -1,5 +1,4 @@
 import { store } from '../../Redux/store';
-import PropTypes from 'prop-types';
 import FieldLayout from './FieldLayout';
 
 const WIN_PATTERNS = [
@@ -13,15 +12,17 @@ const WIN_PATTERNS = [
 	[2, 4, 6], // Диагонали
 ];
 
-function Field({ field, currentPlayer, isGameEnded }) {
-	const handleCellClick = (index) => {
-		if (field[index] || isGameEnded) return;
+function Field() {
+	const state = store.getState();
 
-		const newField = [...field];
-		newField[index] = currentPlayer;
+	const handleCellClick = (index) => {
+		if (state.field[index] || state.isGameEnded) return;
+
+		const newField = [...state.field];
+		newField[index] = state.currentPlayer;
 		store.dispatch({ type: 'SET_FIELD', payload: newField });
 
-		if (checkWinner(newField, currentPlayer)) {
+		if (checkWinner(newField, state.currentPlayer)) {
 			store.dispatch({ type: 'SET_IS_GAME_ENDED', payload: true });
 			return;
 		}
@@ -33,7 +34,7 @@ function Field({ field, currentPlayer, isGameEnded }) {
 		}
 		store.dispatch({
 			type: 'SET_CURRENT_PLAYER',
-			payload: currentPlayer === 'X' ? 'O' : 'X',
+			payload: state.currentPlayer === 'X' ? 'O' : 'X',
 		});
 	};
 
@@ -43,13 +44,7 @@ function Field({ field, currentPlayer, isGameEnded }) {
 		);
 	};
 
-	return <FieldLayout field={field} handleCellClick={handleCellClick} />;
+	return <FieldLayout handleCellClick={handleCellClick} />;
 }
-
-Field.propTypes = {
-	field: PropTypes.arrayOf(PropTypes.string).isRequired,
-	currentPlayer: PropTypes.string.isRequired,
-	isGameEnded: PropTypes.bool.isRequired,
-};
 
 export default Field;
